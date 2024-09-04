@@ -212,3 +212,97 @@ const closure = create("");
 console.log(closure.getValue());
 closure.setValue("");
 console.log(closure.getValue());
+
+function sleep() {
+  return new Promise((resolve, reject) => {
+    fetch("https://jsonplaceholder.typicode.com/todos/1")
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+  });
+}
+
+sleep(1000).then(function (result) {
+  console.log(result);
+});
+const name = "url";
+var promise = new Promise((resolve, reject) => {
+  const fetchData = "url";
+  if (name === fetchData) {
+    resolve("https://jsonplaceholder.typicode.com/todos/1");
+  } else {
+    reject("error");
+  }
+});
+promise
+  .then((data) => {
+    console.log("Fetch thành công:", data);
+  })
+  .catch((error) => {
+    console.error("Fetch thất bại:", error);
+  });
+
+function fetchData(url) {
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => resolve(data))
+      .catch((err) => reject(err));
+  });
+}
+
+fetchData("https://jsonplaceholder.typicode.com/todos/1")
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
+
+fetchData("https://jsonplaceholder.typicode.com/todos/2")
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
+
+//===============================================async/await=====================================//
+const getValue = async () => {
+  let response = await fetch("https://jsonplaceholder.typicode.com/todos/2");
+  let data = await response.json();
+  return data;
+};
+getValue().then((data) => {
+  console.log("get data: ", data);
+});
+
+function logger() {
+  let log = "abc";
+  return log;
+}
+const response = async () => {
+  try {
+    let log = logger();
+    console.log(log);
+  } catch (error) {
+    console.error(error);
+  }
+};
+response();
+
+const firstName = async () => {
+  console.log("start");
+  try {
+    let response = await fetch("https://jsonplaceholder.typicode.com/users");
+    if (response === false) {
+      console.error("resquest failed", response.status);
+    }
+    const users = await response.json();
+    if (users.length > 0) {
+      const firstUser = users[0];
+      console.log(`ID: ${firstUser.id}`);
+      console.log(`Name: ${firstUser.name}`);
+      console.log(`Email: ${firstUser.email}`);
+      console.log("result");
+    } else {
+      console.error("user not found", error);
+    }
+  } catch (error) {
+    console.error("no user  here", error);
+  } finally {
+    console.log("finally");
+  }
+};
+firstName();
